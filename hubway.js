@@ -2,7 +2,8 @@
 
 var http = require('http')
   , util = require('util')
-  , url = "http://www.thehubway.com/data/stations/bikeStations.xml"
+  , bikeStationsXml = 'http://www.thehubway.com/data/stations/bikeStations.xml'
+  , routeConfigMbta86 = 'http://webservices.nextbus.com/service/publicXMLFeed?command=routeConfig&a=mbta&r=86'
   , events = require('events')
   , fs = require('fs');
 
@@ -36,12 +37,25 @@ ResponseDataListener.prototype.toString = function() {
   return this.data;
 }
 
-http.get(url, function(res) {
+http.get(bikeStationsXml, function(res) {
   ResponseDataListener(res).on('end', function(s) {
     console.log("*** markComplete ***"); 
   });
   res.on('data', function(data) {
-    fs.appendFile('bikeStations.xml', data, function (err) {
+    fs.appendFile('data/bikeStations.xml', data, function (err) {
+      if (err) throw err;
+      console.log('It\'s saved!');
+    });    
+  })
+  res.on('error', handleError);
+}).on('error', handleError);
+
+http.get(routeConfigMbta86, function(res) {
+  ResponseDataListener(res).on('end', function(s) {
+    console.log("*** markComplete ***"); 
+  });
+  res.on('data', function(data) {
+    fs.appendFile('data/routeConfig-mbta-86.xml', data, function (err) {
       if (err) throw err;
       console.log('It\'s saved!');
     });    
