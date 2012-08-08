@@ -1,0 +1,16 @@
+{
+  "author": "James Tikalsky",
+  "name": "Hummer",
+  "description": "Hummer",
+  "version": "0.0.1",
+  "dependencies": {
+    "transfer-finder": "0.0.1"
+  },
+  "bundledDependencies":[
+    "transfer-finder"
+  ],
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
